@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Arcade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="main-header">
+        <div>
+          <p class="eyebrow">Arcade Hub</p>
+          <h1>Pixel Arcade</h1>
+        </div>
+        <nav class="game-tabs" aria-label="Game selection">
+          <button class="tab-btn active" data-game="catcher" type="button">Starlight</button>
+          <button class="tab-btn" data-game="reaction" type="button">Reflex</button>
+          <button class="tab-btn" data-game="memory" type="button">Match</button>
+          <button class="tab-btn" data-game="snake" type="button">Snake</button>
+          <button class="tab-btn" data-game="tictactoe" type="button">Tic-Tac-Toe</button>
+          <button class="tab-btn" data-game="maze" type="button">Maze</button>
+          <button class="tab-btn" data-game="number" type="button">Number</button>
+          <button class="tab-btn" data-game="dino" type="button">Dino</button>
+          <button class="tab-btn" data-game="search" type="button">Search</button>
+          <button class="tab-btn" data-game="nightfall" type="button">Nightfall</button>
+          <button class="tab-btn" data-game="blocks" type="button">Stackfall</button>
+          <button class="tab-btn" data-game="chess" type="button">Chess</button>
+        </nav>
+      </header>
+
+      <main class="content-panel">
+        <section class="game-panel active" id="catcher-game" aria-label="Starlight Catcher game">
+          <div class="game-layout">
+            <div class="play-area">
+              <canvas id="gameCanvas" width="900" height="520" aria-label="Starlight Catcher game canvas"></canvas>
+            </div>
+
+            <aside class="side-panel">
+              <div class="card">
+                <h2>How to play</h2>
+                <ul>
+                  <li>Move with <strong>A / D</strong> or <strong>← / →</strong>.</li>
+                  <li>Catch glowing <span class="good">stars</span> for points.</li>
+                  <li>Avoid the dark <span class="bad">void orbs</span>.</li>
+                  <li>Push for a new high score.</li>
+                </ul>
+              </div>
+
+              <div class="card controls-card">
+                <div class="mini-scoreboard">
+                  <div>
+                    <span class="label">Score</span>
+                    <strong id="score">0</strong>
+                  </div>
+                  <div>
+                    <span class="label">Best</span>
+                    <strong id="best-score">0</strong>
+                  </div>
+                  <div>
+                    <span class="label">Lives</span>
+                    <strong id="lives">3</strong>
+                  </div>
+                </div>
+                <button id="startBtn" type="button">Start Game</button>
+                <p id="statusText">Press start to begin your run.</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="game-panel" id="reaction-game" aria-label="Reaction game">
+          <div class="mini-game-card">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Speed Test</p>
+                <h2>Reaction Rush</h2>
+              </div>
+              <div class="stats-row">
+                <span>Best: <strong id="reaction-best">0ms</strong></span>
+              </div>
+            </div>
+
+            <div class="reaction-box" id="reactionBox">Press Start</div>
+            <button id="reactionStartBtn" type="button" class="primary-btn">Start Round</button>
+          </div>
+        </section>
+
+        <section class="game-panel" id="memory-game" aria-label="Memory game">
+          <div class="mini-game-card">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Brain Game</p>
+                <h2>Memory Match</h2>
+              </div>
+              <div class="stats-row">
+                <span>Matches: <strong id="memory-matches">0 / 8</strong></span>
+                <span>Moves: <strong id="memory-moves">0</strong></span>
+              </div>
+            </div>
+
+            <div id="memoryBoard" class="memory-board" aria-label="Memory match board"></div>
+            <button id="memoryResetBtn" type="button" class="primary-btn">New Board</button>
+          </div>
+        </section>
+
+        <section class="game-panel" id="snake-game" aria-label="Snake game">
+          <div class="mini-game-card">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Arcade Classic</p>
+                <h2>Snake</h2>
+              </div>
+              <div class="stats-row">
+                <span>Score: <strong id="snake-score">0</strong></span>
+                <span>Best: <strong id="snake-best">0</strong></span>
+              </div>
+            </div>
+
+            <canvas id="snakeCanvas" class="snake-canvas" width="360" height="360"></canvas>
+            <button id="snakeStartBtn" type="button" class="primary-btn">Start Snake</button>
+          </div>
+        </section>
+
+        <section class="game-panel" id="tictactoe-game" aria-label="Tic Tac Toe game">
+          <div class="mini-game-card">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Strategy</p>
+                <h2>Tic-Tac-Toe</h2>
+              </div>
+              <div class="stats-row">
+                <span id="ttt-status">Your turn: X</span>
+              </div>
+            </div>
+
+            <div id="tttBoard" class="ttt-board" aria-label="Tic Tac Toe board"></div>
+            <button id="tttResetBtn" type="button" class="primary-btn">New Match</button>
+          </div>
+        </section>
+
+        <section class="game-panel" id="maze-game" aria-label="Maze game">
+          <div class="mini-game-card">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Path Finder</p>
+                <h2>Maze Runner</h2>
+              </div>
+              <div class="stats-row">
+                <span>Moves: <strong id="maze-moves">0</strong></span>
+              </div>
+            </div>
+
+            <div id="mazeBoard" class="maze-board" aria-label="Maze board"></div>
+            <button id="mazeResetBtn" type="button" class="primary-btn">New Maze</button>
+          </div>
+        </section>
+
+        <section class="game-panel" id="number-game" aria-label="Number puzzle game">
+          <div class="mini-game-card">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Logic</p>
+                <h2>Number Puzzle</h2>
+              </div>
+              <div class="stats-row">
+                <span>Moves: <strong id="number-moves">0</strong></span>
+              </div>
+            </div>
+
+            <div id="numberBoard" class="number-board" aria-label="Number puzzle board"></div>
+            <button id="numberResetBtn" type="button" class="primary-btn">Shuffle</button>
+          </div>
+        </section>
+
+        <section class="game-panel" id="blocks-game" aria-label="Stackfall falling block puzzle">
+          <div class="mini-game-card blocks-game">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Falling Block Puzzle</p>
+                <h2>Stackfall</h2>
+              </div>
+              <div class="stats-row blocks-stats">
+                <span>Score <strong id="blocks-score">0</strong></span>
+                <span>Lines <strong id="blocks-lines">0</strong></span>
+                <span>Level <strong id="blocks-level">1</strong></span>
+                <span>Best <strong id="blocks-best">0</strong></span>
+              </div>
+            </div>
+
+            <div class="blocks-layout">
+              <canvas id="blocksCanvas" class="blocks-canvas" width="300" height="600" aria-label="Stackfall game board" tabindex="0"></canvas>
+              <aside class="blocks-sidebar">
+                <div class="blocks-next-wrap">
+                  <span class="blocks-label">Next piece</span>
+                  <canvas id="blocksNextCanvas" class="blocks-next-canvas" width="140" height="110" aria-label="Next falling block"></canvas>
+                </div>
+                <p id="blocks-status" class="blocks-status" aria-live="polite">Start a stack. Keep the rows clear.</p>
+                <div class="blocks-actions">
+                  <button id="blocksStartBtn" type="button" class="primary-btn">Start Stack</button>
+                  <button id="blocksPauseBtn" type="button" class="secondary-btn" disabled>Pause</button>
+                </div>
+                <div class="blocks-mobile-controls" aria-label="Block controls">
+                  <button type="button" data-block-action="left" aria-label="Move piece left">&#9664;</button>
+                  <button type="button" data-block-action="rotate" aria-label="Rotate piece">&#8635;</button>
+                  <button type="button" data-block-action="right" aria-label="Move piece right">&#9654;</button>
+                  <button type="button" data-block-action="down" aria-label="Move piece down">&#9660;</button>
+                  <button type="button" data-block-action="drop" aria-label="Drop piece">&#11015;</button>
+                </div>
+                <p class="blocks-hint">Left / right move · Up rotate · Down soft drop · Space hard drop · P pause</p>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="game-panel" id="dino-game" aria-label="Dino runner game">
+          <div class="mini-game-card">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Endless Runner</p>
+                <h2>Dino Dash</h2>
+              </div>
+              <div class="stats-row">
+                <span>Score: <strong id="dino-score">0</strong></span>
+              </div>
+            </div>
+
+            <canvas id="dinoCanvas" class="dino-canvas" width="720" height="220"></canvas>
+            <button id="dinoStartBtn" type="button" class="primary-btn">Start Run</button>
+          </div>
+        </section>
+
+        <section class="game-panel" id="search-game" aria-label="Search arcade games">
+          <div class="mini-game-card search-panel">
+            <div class="mini-header">
+              <div>
+                <p class="eyebrow small">Local Game Library</p>
+                <h2>Find a game</h2>
+              </div>
+            </div>
+            <label class="search-label" for="arcadeSearchInput">Search games</label>
+            <input id="arcadeSearchInput" class="arcade-search-input" type="search" placeholder="Try puzzle, racing, or Snake" autocomplete="off" />
+            <p id="arcadeSearchStatus" class="search-status" role="status" aria-live="polite"></p>
+            <div id="arcadeSearchResults" class="arcade-search-results"></div>
+          </div>
+        </section>
+
+        <section class="game-panel" id="nightfall-game" aria-label="Nightfall survival horror game">
+          <div class="mini-game-card nightfall-panel">
+            <div class="mini-header nightfall-header">
+              <div>
+                <p class="eyebrow small">Survival Protocol / 01</p>
+                <h2>Nightfall: Last Light</h2>
+              </div>
+              <div class="nightfall-readout" aria-live="polite">
+                <span>Wave <strong id="nightfall-wave">0</strong></span>
+                <span>Eliminations <strong id="nightfall-kills">0</strong></span>
+                <span>Scrap <strong id="nightfall-coins">0</strong></span>
+                <span>Best <strong id="nightfall-best">0</strong></span>
+              </div>
+            </div>
+
+            <div class="nightfall-vitals">
+              <div class="health-readout">
+                <span>Vital signs</span>
+                <strong id="nightfall-health-value">100</strong>
+              </div>
+              <div class="health-track" aria-label="Health">
+                <div id="nightfall-health-bar" class="health-fill"></div>
+              </div>
+              <strong id="nightfall-ammo" class="ammo-readout">12 / 72</strong>
+            </div>
+
+            <canvas id="nightfallCanvas" class="nightfall-canvas" width="960" height="600" aria-label="Top-down survival arena. Move with WASD, aim with the mouse, and hold the mouse button to fire." tabindex="0"></canvas>
+
+            <section id="nightfallShop" class="nightfall-shop" aria-label="Between-wave upgrades" hidden>
+              <div class="nightfall-shop-header">
+                <div>
+                  <p class="eyebrow small">Supply Locker</p>
+                  <h3>Wave clear</h3>
+                </div>
+                <p class="shop-wallet">Scrap <strong id="nightfall-shop-coins">0</strong></p>
+              </div>
+              <div class="nightfall-upgrades">
+                <button class="nightfall-upgrade" type="button" data-nightfall-upgrade="damage">
+                  <span class="upgrade-name">Heavy rounds</span>
+                  <span class="upgrade-detail">Deal more damage per shot</span>
+                  <span class="upgrade-cost" data-upgrade-cost></span>
+                </button>
+                <button class="nightfall-upgrade" type="button" data-nightfall-upgrade="fireRate">
+                  <span class="upgrade-name">Quick trigger</span>
+                  <span class="upgrade-detail">Fire more frequently</span>
+                  <span class="upgrade-cost" data-upgrade-cost></span>
+                </button>
+                <button class="nightfall-upgrade" type="button" data-nightfall-upgrade="health">
+                  <span class="upgrade-name">Field kit</span>
+                  <span class="upgrade-detail">Raise max health and recover</span>
+                  <span class="upgrade-cost" data-upgrade-cost></span>
+                </button>
+                <button class="nightfall-upgrade" type="button" data-nightfall-upgrade="magazine">
+                  <span class="upgrade-name">Extended magazine</span>
+                  <span class="upgrade-detail">Carry more rounds per reload</span>
+                  <span class="upgrade-cost" data-upgrade-cost></span>
+                </button>
+              </div>
+              <button id="nightfallNextWaveBtn" class="next-wave-btn" type="button">Start next wave</button>
+            </section>
+
+            <div class="nightfall-controls">
+              <div class="touch-pad" aria-label="Movement controls">
+                <button type="button" data-nightfall-key="up" aria-label="Move up">&#9650;</button>
+                <button type="button" data-nightfall-key="left" aria-label="Move left">&#9664;</button>
+                <button type="button" data-nightfall-key="down" aria-label="Move down">&#9660;</button>
+                <button type="button" data-nightfall-key="right" aria-label="Move right">&#9654;</button>
+              </div>
+              <div class="nightfall-actions">
+                <p id="nightfall-status" class="nightfall-status" aria-live="polite">The lights are out. Start when you are ready.</p>
+                <p class="nightfall-hint">WASD move · Mouse aim · Hold click fire · R reload</p>
+                <button id="nightfallStartBtn" type="button" class="primary-btn">Enter the dark</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="game-panel" id="chess-game" aria-label="Chess against the computer">
+          <div class="mini-game-card chess-game">
+            <div class="mini-header chess-header">
+              <div>
+                <p class="eyebrow small">Strategy / Play White</p>
+                <h2>Chess</h2>
+              </div>
+              <div class="chess-toolbar">
+                <div class="chess-difficulty" role="group" aria-label="Computer difficulty">
+                  <button type="button" class="chess-difficulty-btn active" data-chess-difficulty="easy" aria-pressed="true">Easy</button>
+                  <button type="button" class="chess-difficulty-btn" data-chess-difficulty="normal" aria-pressed="false">Normal</button>
+                  <button type="button" class="chess-difficulty-btn" data-chess-difficulty="hard" aria-pressed="false">Hard</button>
+                </div>
+                <button id="chessResetBtn" type="button" class="chess-reset-btn">New game</button>
+              </div>
+            </div>
+
+            <div class="chess-layout">
+              <div id="chessBoard" class="chess-board" role="grid" aria-label="Chess board"></div>
+              <aside class="chess-sidebar">
+                <p id="chessStatus" class="chess-status" role="status" aria-live="polite">Loading chess rules...</p>
+                <div class="chess-captures">
+                  <div>
+                    <span class="chess-label">Captured by you</span>
+                    <p id="chessWhiteCaptures" class="captured-pieces">None</p>
+                  </div>
+                  <div>
+                    <span class="chess-label">Captured by computer</span>
+                    <p id="chessBlackCaptures" class="captured-pieces">None</p>
+                  </div>
+                </div>
+                <p class="chess-last-move">Last move <strong id="chessLastMove">--</strong></p>
+                <p class="chess-hint">Select a piece, then a highlighted square. Pawns promote to queens.</p>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script type="module" src="chess-game.js"></script>
+  </body>
+</html>
